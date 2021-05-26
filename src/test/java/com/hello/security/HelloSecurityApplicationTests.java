@@ -52,12 +52,12 @@ class HelloSecurityApplicationTests {
      * @return
      * @throws Exception
      */
-    private String obtainAccessToken(String username, String password) throws Exception {
+    private String obtainAccessToken() throws Exception {
     	 
         ResultActions result 
           = mockMvc.perform(post("/v1/authenticate")
         		  .contentType(MediaType.APPLICATION_JSON)
-                  .content("{ \"email\":\"manish.gupta@test.com\",\n"
+                  .content("{ \"email\":\"mark.juber@test.com\",\n"
                   		+ "	\"password\":\"Happy@123\" }") 
                   .accept(MediaType.APPLICATION_JSON))
              	  .andExpect(status().isOk())
@@ -77,7 +77,7 @@ class HelloSecurityApplicationTests {
           .andExpect(status().isOk())
           .andDo(print())
           .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-          .andExpect(jsonPath("$.email", is("manish.gupta@test.com")));
+          .andExpect(jsonPath("$.email", is("mark.juber@test.com")));
     }
     
     
@@ -97,13 +97,13 @@ class HelloSecurityApplicationTests {
     
     @Test
     public void create() throws Exception {
-        String accessToken = obtainAccessToken("manish.gupta@test.com", "Happy@123");
+        String accessToken = obtainAccessToken();
 
         User user = new User();
-        user.setFirstName("Manish");
-        user.setLastName("Gupta");
-        user.setEmail("manish1unyscape.com");
-        user.setPhone("0098765666000");
+        user.setFirstName("Test");
+        user.setLastName("Test");
+        user.setEmail("test@test.com");
+        user.setPhone("9876566600");
         user.setPassword("Happy@123");
             
         mockMvc.perform(MockMvcRequestBuilders.post("/v1/user")
@@ -114,13 +114,32 @@ class HelloSecurityApplicationTests {
           .andExpect(status().isOk()); 
     }
     
+    @Test
+    public void createWithValidation() throws Exception {
+        String accessToken = obtainAccessToken();
+
+        User user = new User();
+        user.setFirstName("Test");
+        user.setLastName("Test");
+        user.setEmail("test");
+        user.setPhone("98765666");
+        user.setPassword("Happy@123");
+            
+        mockMvc.perform(MockMvcRequestBuilders.post("/v1/user")
+          .header("Authorization", "Bearer " + accessToken)
+          .contentType(MediaType.APPLICATION_JSON_VALUE)
+          .content(asJsonString(user))
+          .accept(MediaType.APPLICATION_JSON_VALUE))
+          .andExpect(status().isBadRequest()); 
+    }
+
     
     @Test
     public void update() throws Exception {
-        String accessToken = obtainAccessToken("manish.gupta@test.com", "Happy@123");
+        String accessToken = obtainAccessToken();
         User user = new User();
-        user.setFirstName("Manish");
-        user.setLastName("Gupta");
+        user.setFirstName("Hello");
+        user.setLastName("Hello");
         user.setPhone("98765666000");
         
         mockMvc.perform(MockMvcRequestBuilders.put("/v1/user/2")
@@ -129,13 +148,13 @@ class HelloSecurityApplicationTests {
           .content(asJsonString(user))
           .accept(MediaType.APPLICATION_JSON_VALUE))
           .andExpect(status().isOk())
-          .andExpect(jsonPath("$.firstName", is("Manish")));
+          .andExpect(jsonPath("$.firstName", is("Hello")));
     }
     
     
     @Test
     public void delete() throws Exception {
-        String accessToken = obtainAccessToken("manish.gupta@test.com", "Happy@123");
+        String accessToken = obtainAccessToken();
         
         mockMvc.perform(MockMvcRequestBuilders.delete("/v1/user/2")
           .header("Authorization", "Bearer " + accessToken)

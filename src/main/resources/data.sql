@@ -10,5 +10,5 @@ CREATE TABLE USERS (
 );
 
 INSERT INTO USERS (id, first_name, last_name, email, phone, password) VALUES
- (1, 'Manish', 'Gupta', 'manish.gupta@test.com','2456789760','$2y$12$/QCxue3/krz95LkfFG5JxuHtwKuRbpmM5iHx/xC7nHaCmrUigHAJG'),
+ (1, 'Mark', 'juber', 'mark.juber@test.com','2456789760','$2y$12$/QCxue3/krz95LkfFG5JxuHtwKuRbpmM5iHx/xC7nHaCmrUigHAJG'),
  (2, 'Bill', 'Gates', 'bill.gates@test.com','2476789760','$2y$12$evSg7yiGIWF8V0QCur1UM.QH7hlmC87Xgau.A6g/3hwmgiMS6EUEW');
