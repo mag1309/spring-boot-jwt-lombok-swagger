@@ -9,4 +9,6 @@ This project uses following features
 - JPA
 - Spring Testing
 - Open API
+  - Access the API documention at http://localhost:8080/swagger-ui/index.html  
 - Actuator 
+  - Access the Admin console at http://localhost:8080/actuator  
